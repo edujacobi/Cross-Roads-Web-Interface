@@ -6,9 +6,11 @@
         <Navbar />
         <div class="col-12 p-5">
           <div class="infoGang">
-            <div class="d-flex col-lg-9 col-12 p-0">
+            <div
+              class="d-flex col-lg-9 col-12 p-0 justify-content-between flex-md-row flex-column"
+            >
               <div
-                class="gang-image-div col-lg-2 col-3 order-last order-lg-0 p-0"
+                class="gang-image-div col-lg-2 col-12 p-0 align-self-center align-self-lg-start mb-4"
               >
                 <img
                   class="img-fluid gang-image"
@@ -16,10 +18,7 @@
                   alt="Logo Owntec"
                 />
               </div>
-              <div
-                id="dataGang"
-                class="col-lg-8 col-9 order-first order-lg-0 ps-lg-4"
-              >
+              <div id="dataGang" class="col-md-10 col-12 ps-lg-4">
                 <h1>Gangue [BVO] Owntec</h1>
                 <p class="m-0">Oligarcas honrados</p>
                 <p class="m-0">Trabalhadores assalariados</p>
@@ -42,7 +41,7 @@
             </div>
           </div>
           <div class="d-flex row">
-            <div class="col-lg-3 col-6 pt-4">
+            <div class="col-md-3 col-12 pt-4">
               <div class="cardCR">
                 <div class="d-flex justify-content-between">
                   <h6>Membros</h6>
@@ -65,7 +64,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-6 col-12 order-first order-lg-0 pt-4">
+            <div class="col-md-6 col-12 order-first order-md-0 pt-4">
               <div id="base-gang-card" class="cardCR base-gang h-100 p-0">
                 <div class="base-gang-div d-flex justify-content-between">
                   <h6>Base</h6>
@@ -149,7 +148,7 @@
             </div>
 
             <div
-              class="d-flex flex-column col-lg-2 col-6 justify-content-between pt-4"
+              class="d-flex flex-column col-md-3 col-lg-2 col-12 justify-content-between pt-4"
             >
               <div class="d-flex flex-column gap-3">
                 <a class="btn btn-primary">Depositar</a>
@@ -246,6 +245,7 @@ a:hover {
   margin-left: 20px;
   position: relative;
   font-size: 20px;
+  overflow-wrap: break-word;
 }
 
 .leader::before,
@@ -486,6 +486,14 @@ a:hover {
   display: none;
 }
 
+@media (max-width: 1200px) {
+  .leader,
+  .vice,
+  .recruiter,
+  .member {
+    font-size: 20px;
+  }
+}
 @media (min-width: 992px) {
   #caixaGang {
     text-align: right;
@@ -494,6 +502,22 @@ a:hover {
   }
   .infoGang {
     flex-direction: row;
+  }
+}
+@media (max-width: 1137.98px) {
+  .leader,
+  .vice,
+  .recruiter,
+  .member {
+    font-size: 18px;
+  }
+}
+@media (max-width: 767.98px) {
+  .leader,
+  .vice,
+  .recruiter,
+  .member {
+    font-size: 20px;
   }
 }
 
