@@ -56,13 +56,17 @@
                 <div class="col">
                   <div class="d-flex flex-column">
                     <div class="list-group list-group-flush">
-                      <div class="leader">{{ this.gang.lider }}</div>
+                      <div class="leader">
+                        {{ getUserUsername(this.gang.lider) }}
+                      </div>
                       <div v-if="this.gang.vicelider != null" class="vice">
-                        {{ this.gang.vicelider }}
+                        {{ getUserUsername(this.gang.vicelider) }}
                       </div>
                       <div v-if="this.gang.membros.length >= 1">
                         <div v-for="membro in this.gang.membros" :key="membro">
-                          <div class="member">{{ membro }}</div>
+                          <div class="member">
+                            {{ getUserUsername(membro) }}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -83,7 +87,8 @@
                   </h5>
                 </div>
                 <h4 class="px-4">{{ tipoBase }}</h4>
-                <div v-if="this.gang.base != null" 
+                <div
+                  v-if="this.gang.base != null"
                   class="d-flex flex-column h-75 justify-content-lg-end justify-content-sm-evenly"
                 >
                   <div
@@ -202,7 +207,7 @@
 <script>
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
-import { GANGS } from "./services/Database";
+import { GANGS, USERS } from "./services/Database";
 
 export default {
   name: "App",
@@ -256,6 +261,18 @@ export default {
         });
       }
     },
+    getUserUsername(userId) {
+      if (userId) {
+        USERS.get("/getUserUsernameById", {
+          params: {
+            search: userId,
+          },
+        }).then((response) => {
+          this.user = response.data;
+          console.log(this.user);
+        });
+      }
+    },
   },
 
   computed: {
@@ -286,7 +303,8 @@ export default {
         return "https://cdn.discordapp.com/attachments/531174573463306240/757330594303574146/unknown.png";
       else if (this.gang.base == "aeroporto")
         return "https://media.discordapp.net/attachments/531174573463306240/757330414342766676/unknown.png";
-      else return null;
+      else
+        return "https://cdn.discordapp.com/attachments/531174573463306240/821378668327600179/placeholder.png";
     },
   },
 };
