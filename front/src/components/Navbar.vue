@@ -49,13 +49,17 @@
             </li>
           </a>
         </ul>
-        <form @submit.prevent="searchBtn" id="search" class="d-flex">
+        <form
+          @submit.prevent="search"
+          id="search"
+          class="d-flex"
+        >
           <input
             class="form-control me-0"
             type="search"
             placeholder="Procurar"
             aria-label="Procurar"
-            v-model="searchQuery"
+            v-model="queryString"
           />
           <button id="search-button" class="btn" type="submit">
             <svg
@@ -71,7 +75,34 @@
               />
             </svg>
           </button>
+          <div v-if="activeSearch" class="results">
+            <div class="secondary">Usuários</div>
+            <div v-if="this.userList">
+              <div v-for="user in this.userList" :key="user.nome">
+                <router-link to="/inventory">
+                  <div class="user-pill">
+                    <img :src="user.imagem" />
+                    {{ user.nome }}
+                  </div>
+                </router-link>
+              </div>
+            </div>
+            <div v-else class="secundary">Nenhum usuário encontrado</div>
+            <div class="secondary">Gangues</div>
+            <div v-if="this.gangList">
+              <div v-for="gang in this.gangList" :key="gang.nome">
+                <router-link :to="{ name: 'Gangue', params: { id: gang.id } }">
+                  <div class="user-pill">
+                    <img :src="gang.imagem" />
+                    {{ gang.nome }}
+                  </div>
+                </router-link>
+              </div>
+            </div>
+            <div v-else class="secundary">Nenhuma gangue encontrada</div>
+          </div>
         </form>
+
         <ul class="navbar-nav mx-3 mb-2 mb-lg-0">
           <a class="nav-link" href="#">
             <li class="nav-item mx-2">
@@ -111,20 +142,63 @@
   </nav>
 </template>
 <script>
+import { GANGS, USERS } from "../services/Database";
+
 export default {
   name: "Search",
   props: {},
 
   data() {
     return {
-      searchQuery: "",
+      queryString: "",
+      activeSearch: false,
+      userList: null,
+      gangList: null,
     };
   },
+  // mounted() {
+  //   this.queryString = "";
+  // },
   methods: {
-    searchBtn() {
-      this.$emit("onSearchRequested", this.searchQuery);
+    search(queryString) {
+      this.gangList = null;
+      this.userList = null;
+      queryString = queryString.target[0].value;
+      if (queryString.length != 0) {
+        GANGS.get("/listGangs", {
+          params: {
+            search: queryString,
+          },
+        }).then((response) => {
+          this.gangList = response.data;
+          console.log(this.gangList);
+        });
+
+        USERS.get("/listUsers", {
+          params: {
+            search: queryString,
+          },
+        }).then((response) => {
+          this.userList = response.data;
+          console.log(this.userList);
+        });
+        this.activeSearch = true;
+      }
     },
-  }
+    getGang(id) {
+      GANGS.get("/getGang", {
+        params: {
+          search: id,
+        },
+      }).then((response) => {
+        this.gang = response.data;
+        console.log(this.gang);
+      });
+    },
+    hideResults(){
+      this.activeSearch = false;
+    }
+  },
 };
 </script>
 <style>
@@ -166,26 +240,47 @@ export default {
 #vip:hover #vip-img {
   right: 5px;
 }
+.results {
+  background-color: #202226 !important;
+  width: 250px;
+  position: absolute;
+  top: 20%;
+  border-radius: 20px;
+  z-index: 50;
+  padding: 50px 15px 15px 15px;
+}
+.user-pill {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 5px;
+  text-decoration: none !important;
+}
+.user-pill img {
+  width: auto;
+  height: 30px;
+  border-radius: 100%;
+  object-fit: contain;
+}
 .navbar-dark {
   background-color: var(--body-background) !important;
   box-shadow: var(--shadow-low);
 }
-.form-control {
+.form-control,
+#search,
+#search-button {
+  z-index: 100;
   background-color: #202226 !important;
   color: #474a50;
   border: none;
+}
+.form-control {
   border-radius: 20px 0px 0px 20px;
 }
 #search {
-  background-color: #202226 !important;
-  color: #474a50;
-  border: none;
   border-radius: 20px;
 }
 #search-button {
-  background-color: #202226 !important;
-  color: #474a50;
-  border: none;
   border-radius: 0px 20px 20px 0px;
 }
 

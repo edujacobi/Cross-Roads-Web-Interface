@@ -22,11 +22,11 @@
         <a class="nav-link item-menu px-4" href="#"><div class="icon-cassino px-3"></div> Cassino </a>
         <a class="nav-link item-menu px-4" href="#"><div class="icon-loja px-3"></div> Loja </a>
         <a class="nav-link item-menu px-4 disabled" href="#"><div class="icon-loja px-3"></div> Mercado Negro </a>
-        <a class="nav-link item-menu px-4" href="#"><div class="icon-gangue px-3"></div> Gangue </a>
+        <router-link to="/gangue" class="nav-link item-menu px-4" href="#"><div class="icon-gangue px-3"></div> Gangue </router-link>
         <a class="nav-link item-menu px-4" href="#"><div class="icon-rankings px-3"></div> Rankings </a>
       </div>
     </div>
-    <a class="sidebar-user nav-link" href="#">
+    <router-link to="/inventory" class="sidebar-user nav-link">
       <div>
         <img
           class="user-img"
@@ -38,7 +38,7 @@
         <div class="m-0 username">Jake</div>
         <div class="id">332228051871989761</div>
       </div>
-    </a>
+    </router-link>
   </div>
 </template>
 
